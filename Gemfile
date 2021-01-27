@@ -7,6 +7,6 @@ gem 'nokogiri'
 gem 'dotenv'
 gem 'open-uri'
 gem 'json'
-gem 'pp'
-
+gem 'csv'
+gem 'google_drive'
 

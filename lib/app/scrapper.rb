@@ -1,4 +1,5 @@
-class Scrapper#balayage des pages
+class Scrapper
+  #balayage des pages
   def get_townhall_urls
     pages = Nokogiri::HTML(URI.open("http://annuaire-des-mairies.com/val-d-oise.html"))
     linkarr = []
@@ -28,13 +29,29 @@ class Scrapper#balayage des pages
       f.write(JSON.pretty_generate(finalist))
     end
   end
+
+  def save_as_CSV(finalist)
+    CSV.open("db/emails.csv", "w") do |csv|
+      csv << finalist
+    end
+  end
+#Impossible de faire fonctionner spreadsheet
+  #def save_as_DRIVE(finalist)
+    #session = GoogleDrive::Session.from_service_account_key("client_secret.json")
+    #spreadsheet = session.spreadsheet_by_title("Emails des Mairies")
+    #worksheet = spreadsheet.worksheets.first
+    #worksheet.insert_rows(finalist)
+    #worksheet.save
+  #end
   #méthode orchestre
   def perform
     finalist = []
     get_townhall_urls.each do |link|
       finalist << get_townhall_email(link)
     end
-    save_as_JSON(finalist)
+    #save_as_JSON(finalist)
+    #save_as_CSV(finalist)
+    #save_as_DRIVE(finalist)
     print finalist
     return finalist
   end
